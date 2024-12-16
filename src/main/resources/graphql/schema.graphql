@@ -1,0 +1,33 @@
+type Payment {
+    id: ID!
+    customerId: String!
+    price: Float!
+    priceModifier: Float!
+    paymentMethod: String!
+    datetime: String!
+    additionalItem: String!
+    finalPrice: Float!
+    points: Float!
+}
+
+type Sale {
+    id: ID!
+    datetime: String!
+    sales: Float!
+    points: Float!
+}
+
+type Query {
+    getSales(startDateTime: String!, endDateTime: String!): [Sale!]!
+}
+
+type Mutation {
+    processPayment(
+        customerId: String!,
+        price: Float!,
+        priceModifier: Float!,
+        paymentMethod: String!,
+        datetime: String!,
+        additionalItem: String!
+    ): Payment!
+}
