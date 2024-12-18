@@ -1,5 +1,4 @@
 package org.test.anymindtask.model
-
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
@@ -18,6 +17,17 @@ data class Payment(
     val datetime: LocalDateTime,
     @JdbcTypeCode(SqlTypes.JSON)
     val additionalItem: Map<String, Any>,
-    val finalPrice: Double,
-    val points: Double
-)
+    val finalPrice: Double?,
+    val points: Double?
+) {
+    constructor(customerId: String, price: Double, priceModifier: Double, paymentMethod: PaymentMethod, datetime: LocalDateTime, additionalItem: Map<String, Any>) : this(
+        customerId = customerId,
+        price = price,
+        priceModifier = priceModifier,
+        paymentMethod = paymentMethod,
+        datetime = datetime,
+        additionalItem = additionalItem,
+        finalPrice = null,
+        points = null
+    )
+}

@@ -1,5 +1,4 @@
 type Payment {
-    id: ID!
     customerId: String!
     price: Float!
     priceModifier: Float!
@@ -11,7 +10,6 @@ type Payment {
 }
 
 type Sale {
-    id: ID!
     datetime: String!
     sales: Float!
     points: Float!
@@ -24,7 +22,7 @@ type Query {
 type Mutation {
     processPayment(
         customerId: String!,
-        price: Float!,
+        price: String!,
         priceModifier: Float!,
         paymentMethod: String!,
         datetime: String!,

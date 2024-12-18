@@ -12,7 +12,7 @@ interface SaleRepository : JpaRepository<Sale, Long> {
 
     @Query(
         "SELECT new Sale(DATE_TRUNC('HOUR', p.datetime), SUM(p.finalPrice), SUM(p.points)) " +
-                "FROM Payment p WHERE p.datetime BETWEEN :start AND :end GROUP BY DATE_TRUNC('hour', p.datetime)"
+                "FROM Payment p WHERE p.datetime BETWEEN :start AND :end GROUP BY DATE_TRUNC('HOUR', p.datetime)"
     )
     fun findSalesReport(@Param("start") start: LocalDateTime, @Param("end") end: LocalDateTime): List<Sale>
 }

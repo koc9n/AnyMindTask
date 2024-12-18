@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 @Entity
 data class Sale(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     val id: Long = 0,
     val datetime: LocalDateTime,
     val sales: Double,
