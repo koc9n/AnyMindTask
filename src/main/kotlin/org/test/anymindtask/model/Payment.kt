@@ -1,8 +1,10 @@
 package org.test.anymindtask.model
+
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import org.test.anymindtask.model.enum.PaymentMethod
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Entity
@@ -10,17 +12,24 @@ data class Payment(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
     val customerId: String,
-    val price: Double,
-    val priceModifier: Double,
+    val price: BigDecimal,
+    val priceModifier: BigDecimal,
     @Enumerated(EnumType.STRING)
     val paymentMethod: PaymentMethod,
     val datetime: LocalDateTime,
     @JdbcTypeCode(SqlTypes.JSON)
-    val additionalItem: Map<String, Any>,
-    val finalPrice: Double?,
-    val points: Double?
+    val additionalItem: AdditionalItem,
+    var finalPrice: BigDecimal?,
+    var points: BigDecimal?
 ) {
-    constructor(customerId: String, price: Double, priceModifier: Double, paymentMethod: PaymentMethod, datetime: LocalDateTime, additionalItem: Map<String, Any>) : this(
+    constructor(
+        customerId: String,
+        price: BigDecimal,
+        priceModifier: BigDecimal,
+        paymentMethod: PaymentMethod,
+        datetime: LocalDateTime,
+        additionalItem: AdditionalItem
+    ) : this(
         customerId = customerId,
         price = price,
         priceModifier = priceModifier,

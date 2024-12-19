@@ -34,7 +34,7 @@ $$
             LOOP
                 price := RANDOM() * 100;
                 paymentMethod
-                    := CASE FLOOR(RANDOM() * 11)
+                    := CASE FLOOR(RANDOM() * 12)
                            WHEN 0 THEN 'CASH'
                            WHEN 1 THEN 'CASH_ON_DELIVERY'
                            WHEN 2 THEN 'VISA'
@@ -45,7 +45,8 @@ $$
                            WHEN 7 THEN 'PAYPAY'
                            WHEN 8 THEN 'POINTS'
                            WHEN 9 THEN 'GRAB_PAY'
-                           ELSE 'BANK_TRANSFER'
+                           WHEN 11 THEN 'BANK_TRANSFER'
+                           ELSE 'CHEQUE'
                     END;
 
                 CASE paymentMethod
@@ -68,7 +69,7 @@ $$
                                                                              ELSE price * 0.03
                                                                       END;
                                                                   additionalItem
-                                                                      := jsonb_build_object('last4Digits',
+                                                                      := jsonb_build_object('last4',
                                                                                             LPAD(FLOOR(RANDOM() * 10000)::text, 4, '0'));
                     WHEN 'LINE_PAY', 'PAYPAY', 'GRAB_PAY' THEN priceModifier := 1.0;
                                                                points
@@ -84,13 +85,13 @@ $$
                                               points
                                                   := 0;
                                               additionalItem
-                                                  := jsonb_build_object('bank', 'BankName', 'accountNumber',
+                                                  := jsonb_build_object('bankName', 'BankName', 'accountNumber',
                                                                         LPAD(FLOOR(RANDOM() * 1000000000)::text, 10, '0'));
                     ELSE priceModifier := 0.9 + RANDOM() * 0.1;
                          points
                              := 0;
                          additionalItem
-                             := jsonb_build_object('bank', 'BankName', 'chequeNumber',
+                             := jsonb_build_object('bankName', 'BankName', 'chequeNumber',
                                                    LPAD(FLOOR(RANDOM() * 1000000000)::text, 10, '0'));
                     END CASE;
 

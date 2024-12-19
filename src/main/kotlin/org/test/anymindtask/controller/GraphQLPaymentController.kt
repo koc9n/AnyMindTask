@@ -1,34 +1,33 @@
 package org.test.anymindtask.controller
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.springframework.graphql.data.method.annotation.Argument
+import jakarta.validation.Valid
+import org.slf4j.LoggerFactory
+import org.springframework.graphql.data.method.annotation.Arguments
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.stereotype.Controller
-import org.test.anymindtask.model.Payment
-import org.test.anymindtask.model.enum.PaymentMethod
+import org.test.anymindtask.converter.PaymentConverter
+import org.test.anymindtask.model.PaymentInput
+import org.test.anymindtask.model.PaymentResponse
 import org.test.anymindtask.service.PaymentService
-import java.time.LocalDateTime
 
 @Controller
-class GraphQLPaymentController(private val paymentService: PaymentService) {
+class GraphQLPaymentController(
+    private val paymentService: PaymentService,
+    private val paymentConverter: PaymentConverter
+) {
+    private val logger = LoggerFactory.getLogger(GraphQLPaymentController::class.java)
 
     @MutationMapping
     fun processPayment(
-        @Argument customerId: String,
-        @Argument price: String,
-        @Argument priceModifier: Double,
-        @Argument paymentMethod: String,
-        @Argument datetime: String,
-        @Argument additionalItem: String
-    ): Payment {
-        val payment = Payment(
-            customerId = customerId,
-            price = price.toDouble(),
-            priceModifier = priceModifier,
-            paymentMethod = PaymentMethod.valueOf(paymentMethod),
-            datetime = LocalDateTime.parse(datetime),
-            additionalItem = jacksonObjectMapper().readValue(additionalItem, Map::class.java) as Map<String, String>
-        )
-        return paymentService.savePayment(payment)
+        @Arguments @Valid paymentInput: PaymentInput
+    ): PaymentResponse {
+        logger.debug("Processing payment with input: {}", paymentInput)
+        val payment = paymentConverter.convertToPayment(paymentInput)
+        logger.debug("Converted payment object: {}", payment)
+        val savedPayment = paymentService.processPayment(payment)
+        logger.debug("Saved payment object: {}", savedPayment)
+        val paymentResponse = paymentConverter.convertToPaymentResponse(savedPayment)
+        logger.debug("Payment response object: {}", paymentResponse)
+        return paymentResponse
     }
 }

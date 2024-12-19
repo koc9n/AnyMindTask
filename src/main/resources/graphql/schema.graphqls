@@ -1,18 +1,39 @@
-type Payment {
-    customerId: String!
-    price: Float!
-    priceModifier: Float!
-    paymentMethod: String!
-    datetime: String!
-    additionalItem: String!
-    finalPrice: Float!
-    points: Float!
+type PaymentResponse {
+    customerId: String
+    price: String
+    priceModifier: Float
+    paymentMethod: String
+    datetime: String
+    additionalItem: AdditionalItem
+    finalPrice: String
+    points: Float
+    error: String
 }
 
 type Sale {
     datetime: String!
     sales: Float!
     points: Float!
+}
+
+type AdditionalItem {
+    last4: String
+    courier: String
+    bankName: String
+    accountNumber: String
+    chequeNumber: String
+}
+
+input AdditionalItemInput {
+    last4: String
+    courier: String
+    bankName: String
+    accountNumber: String
+    chequeNumber: String
+}
+
+enum PaymentMethod {
+    CASH, CASH_ON_DELIVERY, VISA, MASTERCARD, AMEX, JCB, LINE_PAY, PAYPAY, POINTS, GRAB_PAY, BANK_TRANSFER, CHEQUE
 }
 
 type Query {
@@ -26,6 +47,6 @@ type Mutation {
         priceModifier: Float!,
         paymentMethod: String!,
         datetime: String!,
-        additionalItem: String!
-    ): Payment!
+        additionalItem: AdditionalItemInput!
+    ): PaymentResponse
 }
