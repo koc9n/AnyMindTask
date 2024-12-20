@@ -27,7 +27,7 @@ class PaymentConverter {
             customerId = payment.customerId,
             price = payment.price.toString(),
             priceModifier = payment.priceModifier,
-            paymentMethod = payment.paymentMethod,
+            paymentMethod = payment.paymentMethod.toString(),
             datetime = payment.datetime.toString(),
             additionalItem = payment.additionalItem,
             finalPrice = payment.finalPrice.toString(),
