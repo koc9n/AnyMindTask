@@ -50,7 +50,7 @@ mutation {
       priceModifier: 0.85,
       paymentMethod: "VISA",
       datetime: "2023-10-01T12:00:00",
-      additionalItem: "{\"last4Digits\": \"1234\"}"
+      additionalItem: { last4: "1234"}
   ) {
     customerId
     price
