@@ -12,8 +12,8 @@
 ### 1. Clone the Repository
 
 ```sh
-git clone https://github.com/yourusername/yourproject.git
-cd yourproject
+git clone https://github.com/koc9n/AnyMindTask.git
+cd AnyMindTask
 ```
 
 ### 2. Create a .env File
